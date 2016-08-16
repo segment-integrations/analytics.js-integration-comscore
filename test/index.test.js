@@ -10,7 +10,8 @@ describe('comScore', function() {
   var analytics;
   var comscore;
   var options = {
-    c2: 'x'
+    c2: 'x',
+    autoUpdateInterval: ''
   };
 
   beforeEach(function() {
