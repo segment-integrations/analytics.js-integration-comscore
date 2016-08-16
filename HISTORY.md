@@ -1,3 +1,8 @@
+2.0.1 / 2016-08-16
+==================
+
+  * Update beacon options to only send javascript lib options
+
 2.0.0 / 2016-06-21
 ==================
 
