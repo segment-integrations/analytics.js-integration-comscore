@@ -11,7 +11,11 @@ describe('comScore', function() {
   var comscore;
   var options = {
     c2: 'x',
-    autoUpdateInterval: ''
+    autoUpdateInterval: '',
+    beaconParamMap: {
+      exampleParam: 'c5',
+      anotherParam: 'c6'
+    }
   };
 
   beforeEach(function() {
@@ -74,6 +78,12 @@ describe('comScore', function() {
         analytics.didNotCall(window.COMSCORE.beacon, { c1: '2', c2: 'x' });
         analytics.page();
         analytics.called(window.COMSCORE.beacon, { c1: '2', c2: 'x' });
+      });
+
+      it('should map properties in beaconParamMap', function() {
+        analytics.didNotCall(window.COMSCORE.beacon, { c1: '2', c2: 'x' });
+        analytics.page({ exampleParam: 'foo', anotherParam: 'bar' });
+        analytics.called(window.COMSCORE.beacon, { c1: '2', c2: 'x', c5: 'foo', c6: 'bar' });
       });
     });
   });
