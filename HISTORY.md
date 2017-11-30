@@ -1,3 +1,10 @@
+2.0.2 / 2017-11-29
+==================
+
+  * Add custom property mapping (#7)
+  * Bump a.js-int-tester version to ^3.1.0 (#5)
+  * Pin karma, karma-mocha dev dependencies (#4)
+
 2.0.1 / 2016-08-16
 ==================
 
