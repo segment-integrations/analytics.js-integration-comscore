@@ -35,7 +35,6 @@ describe('comScore', function() {
 
   it('should have the right settings', function() {
     analytics.compare(Comscore, integration('comScore')
-      .assumesPageview()
       .global('_comscore')
       .option('c1', '2')
       .option('c2', ''));
