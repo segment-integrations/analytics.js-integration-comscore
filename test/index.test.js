@@ -41,47 +41,16 @@ describe('comScore', function() {
   });
 
   describe('before loading', function() {
-    describe('#initialize', function() {
-      it('should set pageCalledYet to false and ready to true', function() {
-        analytics.initialize();
-        analytics.assert(!comscore.pageCalledYet);
-        analytics.assert(comscore._ready);
-      });
+    beforeEach(function() {
+      analytics.stub(comscore, 'load');
     });
 
-    describe('first page', function() {
-      beforeEach(function() {
-        analytics.initialize();
-      });
-
+    describe('#initialize', function() {
       it('should create window._comscore', function() {
+        analytics.assert(!window._comscore);
+        analytics.initialize();
         analytics.page();
         analytics.assert(window._comscore instanceof Array);
-      });
-
-      it('should call #load', function() {
-        analytics.stub(comscore, 'load');
-        analytics.page();
-        analytics.called(comscore.load);
-      });
-
-      it('should set _ready from true to false to true', function(done) {
-        analytics.once('ready', function() {
-          analytics.assert(comscore._ready);
-          done();
-        });
-        analytics.assert(comscore._ready);
-        analytics.page();
-        analytics.assert(!comscore._ready);
-      });
-
-      it('should not call comscore page', function(done) {
-        analytics.once('ready', function() {
-          analytics.stub(window.COMSCORE, 'beacon');
-          analytics.didNotCall(window.COMSCORE.beacon);
-          done();
-        });
-        analytics.page();
       });
     });
   });
@@ -94,21 +63,24 @@ describe('comScore', function() {
 
   describe('after loading', function() {
     beforeEach(function(done) {
-      analytics.once('ready', function() {
-        analytics.stub(window.COMSCORE, 'beacon');
-        done();
-      });
+      analytics.once('ready', done);
       analytics.initialize();
       analytics.page();
     });
 
     describe('#page', function() {
-      it('should call page', function() {
+      beforeEach(function() {
+        analytics.stub(window.COMSCORE, 'beacon');
+      });
+
+      it('should call only on 2nd page', function() {
+        analytics.didNotCall(window.COMSCORE.beacon, { c1: '2', c2: 'x' });
         analytics.page();
         analytics.called(window.COMSCORE.beacon, { c1: '2', c2: 'x' });
       });
 
       it('should map properties in beaconParamMap', function() {
+        analytics.didNotCall(window.COMSCORE.beacon, { c1: '2', c2: 'x' });
         analytics.page({ exampleParam: 'foo', anotherParam: 'bar' });
         analytics.called(window.COMSCORE.beacon, { c1: '2', c2: 'x', c5: 'foo', c6: 'bar' });
       });
