@@ -1,3 +1,9 @@
+2.0.3 / 2018-01-24
+==================
+
+ * Removes `assumesPageView`.
+ * Update initialization logic to respect properties on initial `page` call.
+
 2.0.2 / 2017-11-29
 ==================
 
